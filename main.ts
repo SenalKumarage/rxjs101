@@ -1,48 +1,38 @@
 import { Observable } from "rxjs";
-import { load, loadWithFetch} from "./loader";
+import { load, loadWithFetch } from "./loader";
 
-let source = Observable.merge(
-    Observable.of(1),
-    Observable.from([2,3,4]),
-    Observable.throw(new Error("Stop!")),
-    Observable.of(5)
-).catch(e => {
-    console.log(`Value: ${e}`);
-    return Observable.of(10);
-});
 
-// let source = Observable.onErrorResumeNext(
-//     Observable.of(1),
-//     Observable.from([2,3,4]),
-//     Observable.throw(new Error("Stop!")),
-//     Observable.of(5)
-// );
+let output = document.getElementById("output");
+let button = document.getElementById("button");
 
-source.subscribe(
-    value => console.log(`value ${value}`)
-);
+let click = Observable.fromEvent(document, "click");
 
-// let output = document.getElementById("output");
-// let button = document.getElementById("button");
+function renderMovies(movies) {
+    movies.forEach(m => {
+        let div = document.createElement("div");
+        div.innerText = m.title;
+        output.appendChild(div);
+    });
+}
 
-// let click = Observable.fromEvent(document, "click");
+let subscription =
+    load("movies.json")
+        .subscribe(
+            renderMovies,
+            e => console.log(`error: ${e}`),
+            () => console.log(`complete`)
+        );
 
-// function renderMovies(movies) {
-//     movies.forEach(m => {
-//         let div = document.createElement("div");
-//         div.innerText = m.title;
-//         output.appendChild(div);
-//     });
-// }
+console.log(subscription);
+// subscription.unsubscribe();
 
-// loadWithFetch("movies.json");
 
-// // Observer creation 2
-// click.flatMap(e => loadWithFetch("movies.json"))
-//     .subscribe(
-//         renderMovies,
-//         e => console.log(`error: ${e}`),
-//         () => console.log(`complete`)
-//     );
+// Observer creation 2
+click.flatMap(e => loadWithFetch("movies.json"))
+    .subscribe(
+        renderMovies,
+        e => console.log(`error: ${e}`),
+        () => console.log(`complete`)
+    );
 
 
