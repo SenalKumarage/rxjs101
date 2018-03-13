@@ -1,0 +1,20 @@
+{
+  "name": "rxjs101",
+  "version": "1.0.0",
+  "description": "learning rxjs",
+  "scripts": {
+    "start": "webpack-dev-server --watch --inline",
+    "postinstall": "typings install"
+  },
+  "dependencies": {
+    "rxjs": "^5.5.6"
+  },
+  "devDependencies": {
+    "ts-loader": "^4.0.1",
+    "typescript": "^2.7.2",
+    "typings": "^2.1.1",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11",
+    "webpack-dev-server": "^3.1.1"
+  }
+}
